@@ -25,6 +25,8 @@
 \usepackage{epigraph}
 \usepackage{enumitem}
 \usepackage{fancyhdr}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
 
 \setlength{\headheight}{35pt}
 \setlength\epigraphwidth{.8\textwidth}
@@ -107,8 +109,13 @@ s_x=\sqrt{\frac{1}{n-1}\sum_{i=1}^n(x_i-\overline{x})^2}\label{meanstd}
 	}{\\ \hline
 	\end{array}}
 
+% lists
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
+
 % vector arrow to bold symbol
-\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\vabla}{\vec{\nabla}}
 
 % other settings
 \hbadness=99999
