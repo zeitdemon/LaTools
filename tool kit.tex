@@ -7,12 +7,15 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
 \usepackage{cleveref}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{tikz}
 \usetikzlibrary{decorations.pathmorphing,patterns}
 \usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
 \usepackage{tikz-cd}
 \usepackage{nicefrac}
 \usepackage{mathtools}
@@ -23,8 +26,12 @@
 \setlength{\parskip}{1em}
 \usepackage{cancel}
 \usepackage{epigraph}
-\usepackage{enumitem}
 \usepackage{fancyhdr}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{placeins}
+\usepackage{booktabs}
+\usepackage{wasysym}
 
 \setlength{\headheight}{35pt}
 \setlength\epigraphwidth{.8\textwidth}
@@ -39,6 +46,11 @@
 \newcommand{\bov}[2]{\buildrel{#2} \over{#1}}
 % better looking := (defined as)
 \newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt \hbox{\scriptsize.}\hbox{\scriptsize.}}}=}
+\newcommand*{\eqdef}{=\mathrel{\vcenter{\baselineskip0.5ex \lineskiplimit0pt \hbox{\scriptsize.}\hbox{\scriptsize.}}}}
+% integral differential d
+\newcommand{\dif}{\mathop{}\!\mathrm{d}}
+\newcommand{\difi}[1]{\mathrm{d}#1\mathop{}\!}
+\newcommand{\dd}{\dif}
 
 \newcommand{\verteq}{\rotatebox{90}{$\,=$}}
 \newcommand{\equalto}[2]{\underset{\scriptstyle\overset{\mkern4mu\verteq}{#2}}{#1}}
@@ -69,10 +81,44 @@
 \newcommand{\kq}{\frac{1}{4\pi\epsilon_0}}
 \newcommand{\uind}{U_{\tx{ind}}}
 \newcommand{\folie}[1]{\color{gray}[Folie: #1]\color{black}}
+\newcommand{\versuch}[1]{\color{red!50!black} Versuch: \color{black} #1\\ }
 
 % theo commands
 \newcommand{\lag}{\mathcal{L}}
 \newcommand{\ham}{\mathcal{H}}
+\newcommand{\ham}{\mathcal{H}}
+\newcommand{\gre}{\mathcal{G}}
+\newcommand{\prt}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\prd}[2]{\frac{\tx{d} #1}{\tx{d} #2}}
+\newcommand{\eofr}{\vec{E}(\vec{r})}
+\newcommand{\pofr}{\Phi(\vec{r})}
+\renewcommand{\Phi}{\varPhi}
+\newcommand{\grr}{\mathcal G(\vec{r},\vec{r}')}
+\newcommand{\vphi}{\varphi}
+
+% lab commands
+\newcommand\mean{\begin{equation}
+\frac{\sum_{i=1}^n x_i}{n}\label{mean}
+\end{equation}}
+\newcommand\meanstd{\begin{equation}
+s_x=\sqrt{\frac{1}{n-1}\sum_{i=1}^n(x_i-\overline{x})^2}\label{meanstd}
+\end{equation}}
+\newcommand\prodquo{\begin{equation}\left\vert\frac{\Delta z}{z}\right\vert=\sqrt{\left(a\frac{\Delta x}{x}\right)^2+\left(b\frac{\Delta y}{y}\right)^2+\ldots}\textrm{ f\"ur }z=x^a\ y^b\ldots\end{equation}}
+\newcommand\tfuncd{\begin{equation}
+t=\frac{\vert x_n-y_n\vert}{\sqrt{x_s^2+y_s^2}}
+\end{equation}}
+\newcommand\tfunc{\begin{equation}
+t=\frac{\vert x-y_0\vert}{u_x}
+\end{equation}}
+
+% ANDREZ
+\newcommand{\summ}[2]{\sum_{#1}^{#2}}
+\newcommand{\intt}[2]{\int_{#1}^{#2}}
+\newcommand{\lcom}[1]{\color{MidnightBlue}#1\color{black}}
+\newcommand{\bei}{\emph{Beispiel: }}
+\newcommand{\bem}{\emph{Bemerkung:}}
+\renewcommand{\paragraph}[1]{\subsubsection{#1}}
+\newcommand{\mau}{$\buildrel \mathcal{O} \over{\textbf{.}}$}
 
 % boxes
 \tcbuselibrary{theorems}
@@ -91,9 +137,51 @@
 	\displaystyle
 	}{\\ \hline
 	\end{array}}
+\newcommand{\bbb}[2]{\begin{tcolorbox}[colback=white,colframe=black,fonttitle=\bfseries,title=#1,sharp corners,tcbox raise base]#2\end{tcolorbox}}
+
+% lists
+\newlist{arrowlist}{itemize}{1}
+\setlist[arrowlist]{label=$\Rightarrow$}
 
 % vector arrow to bold symbol
-\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\renewcommand{\vec}[1]{\bm{#1}}
+\newcommand{\vabla}{\vec{\nabla}}
+
+% tikz
+
+\def\centerarc[#1](#2)(#3:#4:#5)% Syntax: [draw options] (center) (initial angle:final angle:radius)
+{ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5); }
+
+\tikzset{
+	annotated cuboid/.pic={
+		\tikzset{%
+			every edge quotes/.append style={midway, auto},
+			/cuboid/.cd,
+			#1
+		}
+		\draw [every edge/.append style={pic actions, densely dashed, opacity=.5}, pic actions]
+		(0,0,0) coordinate (o) -- ++(-\cubescale*\cubex,0,0) coordinate (a) -- ++(0,-\cubescale*\cubey,0) coordinate (b) edge coordinate [pos=1] (g) ++(0,0,-\cubescale*\cubez)  -- ++(\cubescale*\cubex,0,0) coordinate (c) -- 
+		(o) -- ++(0,0,-\cubescale*\cubez) coordinate (d) -- ++(0,-\cubescale*\cubey,0) coordinate (e) edge (g) -- (c) -- cycle
+		(o) -- (a) -- ++(0,0,-\cubescale*\cubez) coordinate (f) edge (g) -- (d) -- cycle;
+		\path [every edge/.append style={pic actions, |-|}]
+		%(b) +(0,-5pt) coordinate (b1) edge ["\cubex \cubeunits"'] (b1 -| c)
+		%(b) +(-5pt,0) coordinate (b2) edge ["\cubey \cubeunits"] (b2 |- a)
+		%(c) +(3.5pt,-3.5pt) coordinate (c2) edge ["\cubez \cubeunits"'] ([xshift=3.5pt,yshift=-3.5pt]e)
+		;
+	},
+	/cuboid/.search also={/tikz},
+	/cuboid/.cd,
+	width/.store in=\cubex,
+	height/.store in=\cubey,
+	depth/.store in=\cubez,
+	units/.store in=\cubeunits,
+	scale/.store in=\cubescale,
+	width=10,
+	height=10,
+	depth=10,
+	units=cm,
+	scale=.1,
+}
 
 % other settings
 \hbadness=99999
@@ -104,8 +192,8 @@
 \pagestyle{fancy}
 
 % coloring
-\pagecolor{darkgray}
-\color{white}
+%\pagecolor{darkgray}
+%\color{white}
 \newcommand{\lol}[1]{\color{red}#1\color{black}}
 \newcommand{\lal}[1]{\color{yellow}#1\color{black}}
 \newcommand{\dod}[1]{\color{green}#1\color{black}}
