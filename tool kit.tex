@@ -68,7 +68,7 @@
 \newcommand{\ob}[1]{\overbrace{#1}}
 \newcommand{\const}{\tx{const.}}
 \newcommand{\casess}[4]{\left\{ \begin{array}{ll} {#1} & {#2} \\ {#3} & {#4} \end{array} \right.}
-\newcommand{\hfw}{\color{RubineRed}\tx{ $\star$hier fehlt was$\star$ } \color{black}}  % used to indicate to the reader that something is missing here
+\newcommand{\hfw}{\tx{\color{RubineRed} $\star$hier fehlt was$\star$ }}  % used to indicate to the reader that something is missing here
 \newcommand{\prt}[2]{\frac{\partial #1}{\partial #2}}  % used for partial derivatives, tip: input #1 can be left blank
 
 % linear algebra commands
@@ -85,8 +85,8 @@
 % exp commands
 \newcommand{\kq}{\frac{1}{4\pi\epsilon_0}}  % writes out the whole constant k from electrodynamics
 \newcommand{\uind}{U_{\tx{ind}}}
-\newcommand{\folie}[1]{\color{gray}[Folie: #1]\color{black}}  % used to tell the reader that there was multimedia content during a lecture
-\newcommand{\versuch}[1]{\color{red!50!black} Versuch: \color{black} #1\\ }  % used to tell the reader that there was a live experiment
+\newcommand{\folie}[1]{\tx{\color{gray}[Folie: #1]}}  % used to tell the reader that there was multimedia content during a lecture
+\newcommand{\versuch}[1]{\textbf{\color{red!50!black}Versuch:} \textbf{#1}\\ }  % used to tell the reader that there was a live experiment
 
 % theo commands
 \newcommand{\lag}{\mathcal{L}}  % used for Lagrange function
@@ -117,9 +117,9 @@ t=\frac{\vert x-y_0\vert}{u_x}
 % ANDREZ
 \newcommand{\summ}[2]{\sum_{#1}^{#2}}
 \newcommand{\intt}[2]{\int_{#1}^{#2}}
-\newcommand{\lcom}[1]{\color{MidnightBlue}#1\color{black}}  % used to indicate to the reader that this content was transcribed from the lecture
+\newcommand{\lcom}[1]{\tx{\color{MidnightBlue}#1}}  % used to indicate to the reader that this content was transcribed from the lecture
 \newcommand{\bei}{\emph{Beispiel: }}
-\newcommand{\bem}{\emph{Bemerkung:}}
+\newcommand{\bem}{\emph{Bemerkung: }}
 \renewcommand{\paragraph}[1]{\subsubsection{#1}}  % changed oddly behaving paragraphs to simple subsubsections which are not numbered nor in the toc
 \newcommand{\mau}{$\buildrel \mathcal{O} \over{\textbf{.}}$}  % the extreme Waldmann exclamation mark recreated in latex by Markus
 
